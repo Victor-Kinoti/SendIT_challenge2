@@ -57,5 +57,5 @@ install dependencies:
 
 Here's the [documentation](https://documenter.getpostman.com/view/4146964/RzZAme6q) on how to consume the API on a local machine. New users need to Register then Login
 
-**Heroku site** [Here](https://sendit-keynote.herokuapp.com)
+**Heroku site** [Here](https://sendit-keynote2.herokuapp.com)
 
