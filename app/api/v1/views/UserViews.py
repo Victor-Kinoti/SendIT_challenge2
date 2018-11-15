@@ -90,13 +90,12 @@ class CancelOrder(Resource):
 				"Message":"Provide a valid order id",
 				"Status": "bad request"
 			}),400)
-		if order_id is not None:
-			order_id = str(order_id)
-			print(data['order_id'])
-			if order_id == data['order_id']:
-				order_1 = Order()
-				order_1.cancel_order(order_id)
-				return make_response(jsonify({'Status': \
+		# if order_id is not None:
+		par=Order()
+		order=par.get_one_order(order_id)
+		if order:
+			order['order_status'] == 'Canceled'
+			return make_response(jsonify({'Status': \
 				'order has been canceled'}),201)
 			
 		return make_response(jsonify({"Status": \
@@ -126,12 +125,20 @@ class RegisterUser(Resource):
 			abort(make_response(jsonify(message=\
 			"wrong email format"),400))
 
-			
 		if len(data)==0:
 			abort(make_response(jsonify(message=\
 			"Fill in the fields"),400))
 		
 		user_1 = User_model()
+		for item in User_model.fields:
+			if data['email'] == item['email']:
+				abort(make_response(jsonify(message=\
+			"email already exists"),400))
+
+			if data['username'] == item['username']:
+				abort(make_response(jsonify(message=\
+			"username already exists"),400))				
+
 		user_1.create_user(data)
 
 		payload = {
@@ -173,5 +180,3 @@ class UserLogin(Resource):
 		result= make_response(jsonify(payload), 201)
 		result.content_type = 'application/json;charset=utf-8'
 		return result
-
-

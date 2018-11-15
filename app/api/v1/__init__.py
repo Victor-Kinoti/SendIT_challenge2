@@ -1,7 +1,9 @@
 from flask import Blueprint
 from flask_restful import Api, Resource
-from .views.UserViews import DataParcel, SingleParcel, CancelOrder, RegisterUser, UserLogin
-from .views.AdminView import Admin_all_Orders, Admin_user_all_Order, admin_update_order_status, admin_update_payment_status
+from .views.UserViews import DataParcel, SingleParcel, \
+CancelOrder, RegisterUser, UserLogin
+from .views.AdminView import Admin_all_Orders, Admin_user_all_Order,\
+ admin_update_order_status, admin_update_payment_status
 version1 = Blueprint('v1', __name__,  url_prefix = '/api/v1')
 
 api = Api(version1)

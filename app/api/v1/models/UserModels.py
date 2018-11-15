@@ -100,5 +100,9 @@ class User_model(object):
 		User_model.fields.append(payload)
 		return True
 
+	def get_one_user(self, email):
+		for user in User_model.fields():
+			if user['email'] == email:
+				return order
 	
 	
