@@ -19,8 +19,8 @@ def page_not_found(e):
 def create_app():
     """Intialize app"""
     app = Flask(__name__)
-    app.config['JWT_SECTRET_KEY'] = 'thisissecret'
     jwt = JWTManager(app)
+    app.config["JWT_SECRET_KEY"] = 'thisissecret'
     conn = DatabaseConnection()
     conn.create_tables()
     app.register_blueprint(v1)
