@@ -1,4 +1,5 @@
-from ..models.UserModels import Order
+from ..models.UserModels import Order, User
+from flask_jwt_extended import create_access_token
 from validate_email import validate_email
 from flask_restful import Resource
 from flask import make_response, jsonify, request, abort
@@ -7,7 +8,7 @@ from email.utils import parseaddr
 
 
 class DataParcel(Resource):
-    """Utilizes data from an order by either getting all 
+    """Utilizes data from an order by either getting all
     data or posting new data"""
 
     def post(self):
@@ -75,3 +76,40 @@ class UsersOrders(Resource):
         }
 
         return payload, 200
+
+
+class RegisterUser(Resource):
+    """This class creates a new user"""
+
+    def post(self):
+
+        data = request.get_json() or {}
+
+        user_1 = User()
+
+        user_1.create_user(data)
+
+        payload = {
+            "Status": "User created",
+            "data": data
+
+        }
+        return payload, 201
+
+
+class UserLogin(Resource):
+
+    def post(self):
+        data = request.get_json() or {}
+
+        user = User()
+
+        login_user = user.login_user(data['email'], data['password'])
+
+        my_id = [data['email']]
+
+        token = create_access_token(identity=my_id)
+
+        payload = {
+            "Status": "User Logged in"
+        }
