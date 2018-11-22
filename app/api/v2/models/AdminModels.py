@@ -22,3 +22,13 @@ class UserOrders(object):
                 """SELECT * FROM orders_table WHERE order_id = %s""" % order_id)
             order = cursor.fetchone()
         return order
+
+    def get_all(self, user_id):
+        """Get all orders of specific user
+        """
+        conn = connection()
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """SELECT * FROM orders_table WHERE user_id = %s""" % user_id)
+            order = cursor.fetchall()
+        return order
