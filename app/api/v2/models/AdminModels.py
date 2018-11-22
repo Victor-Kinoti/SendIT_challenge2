@@ -1,10 +1,12 @@
 import uuid
 from .UserModels import Order
 from db.db_config import connection, close_connection
+from flask_jwt_extended import create_access_token, jwt_required
 
 
 class UserOrders(object):
 
+    @jwt_required
     def get_all_orders(self):
         conn = connection()
         with conn.cursor() as cursor:
@@ -12,6 +14,7 @@ class UserOrders(object):
             order = cursor.fetchall()
         return order
 
+    @jwt_required
     def get_one_order(self, order_id):
         """Gets a specific order with order_id as arguments
         param:order_id
@@ -23,6 +26,7 @@ class UserOrders(object):
             order = cursor.fetchone()
         return order
 
+    @jwt_required
     def get_all(self, user_id):
         """Get all orders of specific user
         """
@@ -33,6 +37,7 @@ class UserOrders(object):
             order = cursor.fetchall()
         return order
 
+    @jwt_required
     def update_order_status(self, order_id):
         conn = connection()
         try:
@@ -48,6 +53,7 @@ class UserOrders(object):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
 
+    @jwt_required
     def update_location(self, order_id):
         conn = connection()
         try:
@@ -63,6 +69,7 @@ class UserOrders(object):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
 
+    @jwt_required
     def Update_order_destination(self, order_id):
         conn = connection()
         try:
