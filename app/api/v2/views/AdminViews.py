@@ -22,3 +22,25 @@ class OrderParcels(Resource):
         }
 
         return payload, 200
+
+
+class SingleOrder(Resource):
+
+    def get(self, order_id):
+        try:
+            order_id = int(order_id)
+        except Exception:
+            return {"Message": "Provide a valid order id",
+                    "Status": "bad request"}, 400
+
+        par = UserOrders()
+        one_order = par.get_one_order(order_id)
+        if one_order is not None:
+            return make_response(jsonify(
+                {
+                    "Status": "Ok",
+                    "Orders": one_order
+                }))
+        return make_response(jsonify({
+            "Status": "Not Found"
+        }), 404)
