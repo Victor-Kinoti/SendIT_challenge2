@@ -43,17 +43,6 @@ class Order(object):
         return order
 
     @jwt_required
-    def get_all(self, user_id):
-        """Get all orders of specific user
-        """
-        conn = connection()
-        with conn.cursor() as cursor:
-            cursor.execute(
-                """SELECT * FROM orders_table WHERE user_id = %s""" % user_id)
-            order = cursor.fetchall()
-        return order
-
-    @jwt_required
     def get_all_orders(self):
         conn = connection()
         with conn.cursor() as cursor:

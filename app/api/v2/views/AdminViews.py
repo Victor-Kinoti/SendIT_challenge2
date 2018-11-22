@@ -44,3 +44,27 @@ class SingleOrder(Resource):
         return make_response(jsonify({
             "Status": "Not Found"
         }), 404)
+
+
+class UsersOrders(Resource):
+
+    def get(self, user_id):
+        """gets all orders for certain user"""
+        try:
+            user_id = int(user_id)
+        except Exception:
+            return {"Message": "Provide a valid user id",
+                    "Status": "bad request"}, 400
+
+        par = UserOrders()
+
+        all_orders = par.get_all(user_id)
+        if all_orders:
+
+            return {"Status": "Ok",
+                    "Orders": all_orders
+                    }, 200
+
+        return {
+            "Status": "Not Found"
+        }, 404

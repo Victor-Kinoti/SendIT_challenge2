@@ -63,22 +63,6 @@ class SingleParcel(Resource):
         }), 404)
 
 
-class UsersOrders(Resource):
-
-    def get(self, user_id):
-        """gets all orders for certain user"""
-        par = Order()
-
-        all_orders = par.get_all(user_id)
-
-        payload = {
-            "Status": "Ok",
-            "Data": all_orders
-        }
-
-        return payload, 200
-
-
 class RegisterUser(Resource):
     """This class creates a new user"""
 
