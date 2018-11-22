@@ -1,13 +1,13 @@
 import uuid
 from psycopg2.extras import RealDictCursor
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required
 from db.db_config import connection, close_connection
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class Order(object):
     """Creates an order"""
-
+    @jwt_required
     def create_order(self, data):
         print(data)
         destination_address = data['destination_address']
@@ -30,6 +30,7 @@ class Order(object):
 
             conn.commit()
 
+    @jwt_required
     def get_one_order(self, order_id):
         """Gets a specific order with order_id as arguments
         param:order_id
@@ -41,6 +42,7 @@ class Order(object):
             order = cursor.fetchone()
         return order
 
+    @jwt_required
     def get_all(self, user_id):
         """Get all orders of specific user
         """
@@ -51,6 +53,7 @@ class Order(object):
             order = cursor.fetchall()
         return order
 
+    @jwt_required
     def get_all_orders(self):
         conn = connection()
         with conn.cursor() as cursor:
@@ -79,16 +82,24 @@ class User(object):
 
     def login_user(self, email, password):
         conn = connection()
-        print('niko hapa')
         with conn.cursor() as cursor:
             cursor.execute(
                 """SELECT * FROM users_tables WHERE email = '%s'""" % email)
             res = cursor.fetchone()
-            print(res['password'])
-            if res is not None:
-                my_id = [res['email'], res['role']]
-                token = create_access_token(identity=my_id)
+        return res
 
-                return token
-            else:
-                return "Not"
+    def get_user(self, email):
+        conn = connection()
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """SELECT * FROM users_tables WHERE email = '%s'""" % email)
+            res = cursor.fetchone()
+        return res
+
+    def get_pass(self, email):
+        conn = connection()
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """SELECT password FROM users_tables WHERE email = '%s'""" % email)
+            passw = cursor.fetchone()
+        return passw

@@ -1,4 +1,5 @@
 from ..models.UserModels import Order, User
+from validate_email import validate_email
 from flask_jwt_extended import create_access_token
 from validate_email import validate_email
 from flask_restful import Resource
@@ -85,6 +86,25 @@ class RegisterUser(Resource):
 
         data = request.get_json() or {}
 
+        if 'username'not in data or 'email' not in data or\
+                'password' not in data\
+                or 'con_password' not in data or 'role' not in data:
+            abort(make_response(jsonify(message="Some or all fields are missing"), 400))
+
+        if data['role'] != 'Admin' and data['role'] != 'User':
+            abort(make_response(jsonify({"Message":
+                                         "Roles can be either Admin or User"}), 400))
+
+        if data['password'] != data['con_password']:
+            abort(make_response(
+                jsonify(message="Password and confirm password not matching"), 400))
+
+        if not validate_email(data['email']):
+            abort(make_response(jsonify(message="wrong email format"), 400))
+
+        if len(data) == 0:
+            abort(make_response(jsonify(message="Fill in the fields"), 400))
+
         user_1 = User()
 
         user_1.create_user(data)
@@ -101,15 +121,36 @@ class UserLogin(Resource):
 
     def post(self):
         data = request.get_json() or {}
+        print(data['email'])
 
-        user = User()
+        if validate_email(str(data['email'])) is False:
+            return {"Status": "Wrong email format!"}
 
-        login_user = user.login_user(data['email'], data['password'])
+        found = User()
+        user_found = found.get_user(data['email'])
+        if user_found:
 
-        my_id = [data['email']]
+            user = User()
+            email = data['email']
+            password = data['password']
 
-        token = create_access_token(identity=my_id)
+            auth = user.login_user(email, password)
 
-        payload = {
-            "Status": "User Logged in"
-        }
+            if auth:
+                passw = User()
+                pass_match = passw.get_pass(data['email'])
+
+                if pass_match:
+                    access_token = create_access_token(identity=email)
+
+                    payload = {
+                        "Status": "User Logged in",
+                        "token": access_token
+
+                    }
+
+                    return payload, 200
+                return {"password mismatch"}, 400
+        return {
+            "Status": "User doesn't exist"
+        }, 404
