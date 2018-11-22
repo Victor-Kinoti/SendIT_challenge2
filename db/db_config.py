@@ -21,3 +21,9 @@ def connection():
 def close_connection(conn):
     conn.commit()
     conn.close()
+
+
+def destroy_tables():
+    conn = connection()
+    cursor = conn.cursor()
+    cursor.execute("""DROP TABLES users_tables""")
