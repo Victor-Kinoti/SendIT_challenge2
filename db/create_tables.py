@@ -32,6 +32,7 @@ class DatabaseConnection:
             item_type VARCHAR (256) NOT NULL DEFAULT 'parcel',
             weight INT NOT NULL,
             user_id INT,
+            current_location VARCHAR (50) NOT NULL DEFAULT 'Mombasa',
             order_status VARCHAR (50) NOT NULL DEFAULT 'In-Transit',
             payment_status VARCHAR (50) NOT NULL DEFAULT 'Not paid')
             """
