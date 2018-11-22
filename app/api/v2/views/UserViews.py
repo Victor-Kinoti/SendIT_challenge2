@@ -17,6 +17,25 @@ class DataParcel(Resource):
         """Create an order"""
         data = request.get_json()
 
+        if len(data) == 0:
+            abort(make_response(jsonify(message="Fill in the fields"), 400))
+
+        if 'destination_address' not in data or 'pickup_address'\
+                not in data or data['destination_address'].isalpha() == False\
+                or data['pickup_address'].isalpha() == False:
+            abort(make_response(
+                jsonify(message="ensure to provide the addresses in correct format"), 400))
+
+        if 'recipient_name' not in data or 'recipient_id' not in data\
+                or data['recipient_name'].isalpha() == False:
+            abort(make_response(jsonify(
+                message="recipient_name or recipient_id missing or wrong data format"), 400))
+
+        if 'item_type' not in data or 'weight' not in data or\
+                data['item_type'] != 'parcel' and data['item_type'] != 'envelope':
+            abort(make_response(
+                jsonify(message="item_type/weight missing or data type wrong format"), 400))
+
         par = Order()
         par.create_order(data)
 
@@ -54,14 +73,13 @@ class SingleParcel(Resource):
         par = Order()
         one_order = par.get_one_order(order_id)
         if one_order is not None:
-            return make_response(jsonify(
-                {
-                    "Status": "Ok",
-                    "Orders": one_order
-                }))
-        return make_response(jsonify({
+            return {
+                "Status": "Ok",
+                "Orders": one_order
+            }, 200
+        return {
             "Status": "Not Found"
-        }), 404)
+        }, 404
 
 
 class RegisterUser(Resource):

@@ -36,10 +36,24 @@ class DatabaseConnection:
             order_status VARCHAR (50) NOT NULL DEFAULT 'In-Transit',
             payment_status VARCHAR (50) NOT NULL DEFAULT 'Not paid')
             """
+
         self.cursor.execute(create_table_users)
         self.cursor.execute(create_table_orders)
 
+    def destroy_tables(self):
+        users_tables = "DROP TABLE IF EXISTS users_tables CASCADE"
+        orders_table = "DROP TABLE IF EXISTS orders_table CASCADE"
+        queries = [users_tables, orders_table]
+        try:
+            for query in queries:
+                self.cursor.execute(query)
+            self.connection.commit()
+            self.cursor.close()
 
-if __name__ == '__main__':
-    database_connection = DatabaseConnection()
-    database_connection.create_tables()
+        except Exception as e:
+            return e
+
+
+# if __name__ == '__main__':
+#     database_connection = DatabaseConnection()
+#     database_connection.create_tables()

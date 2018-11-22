@@ -1,3 +1,4 @@
+
 request_1 = {
     "destination_address": "Nairobi",
     "pickup_address": "kisumu",
@@ -13,8 +14,11 @@ request_1 = {
 
 }
 request_2 = {
-    "username": "Keynote", "email": "vik@gmail.com",
-    "password": "pass", "con_password": "pass", "role": "Admin"
+    "username": "kk",
+    "email": "andj@gmail.com",
+    "password": "bbb",
+    "con_password": "bbb",
+    "role": "User"
 }
 
 request_3 = {
@@ -23,15 +27,15 @@ request_3 = {
 }
 request_reg = {
     "username": "vikey",
-    "email": "vi@gmmai.com",
+    "email": "vi@gmm.com",
     "password": "keynote",
     "con_password": "keynote",
     "role": "Admin"
 }
 
 request_log = {
-    "email": "vi@gmmai.com",
-    "password": "key"
+    "email": "vi@gmm.com",
+    "password": "keynote"
 }
 request_4 = {
     "email": "vik@gmail.com", "password": "pass",
