@@ -11,13 +11,12 @@ install:
   - pip install coveralls
 
 before_script:
-  - export FLASK_APP='run.py'
   - psql -c 'create database sendit;' -U postgres
   - export DB_URL='postgresql://postgres@localhost:5432/sendit'
-  - flask run
 
 script:
  - nosetests --with-coverage --cover-package=app
+ - coveralls
 
 after_success:
   - coveralls

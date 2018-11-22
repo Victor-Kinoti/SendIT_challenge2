@@ -29,15 +29,15 @@ class ParcelModelCase(unittest.TestCase):
         auth_header = {'Authorization': 'Bearer {}'.format(access_token)}
         return auth_header
 
-    def test_create_order(self):
-        """Tests if an order has been created"""
-        res = self.client.post('/api/v2/parcels',
-                               data=json.dumps(request_1),
-                               content_type='application/json', headers=self.get_token())
-        output = json.loads(res.data.decode())
-        # self.assertEqual(output['Status'], "created",
-        #                  msg="Incomplete credentials not allowed")
-        assert res.status_code == 201
+    # def test_create_order(self):
+    #     """Tests if an order has been created"""
+    #     res = self.client.post('/api/v2/parcels',
+    #                            data=json.dumps(request_1),
+    #                            content_type='application/json', headers=self.get_token())
+    #     output = json.loads(res.data.decode())
+    #     # self.assertEqual(output['Status'], "created",
+    #     #                  msg="Incomplete credentials not allowed")
+    #     assert res.status_code == 201
 
     def test_get_all_orders(self):
         """Test get all functionality of an order"""
