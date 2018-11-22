@@ -20,6 +20,7 @@ def create_app():
     """Intialize app"""
     app = Flask(__name__)
     jwt = JWTManager(app)
+    app.config['PROPAGATE_EXCEPTIONS'] = True
     app.config["JWT_SECRET_KEY"] = 'thisissecret'
     conn = DatabaseConnection()
     conn.create_tables()
