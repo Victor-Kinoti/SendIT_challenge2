@@ -32,3 +32,48 @@ class UserOrders(object):
                 """SELECT * FROM orders_table WHERE user_id = %s""" % user_id)
             order = cursor.fetchall()
         return order
+
+    def update_order_status(self, order_id):
+        conn = connection()
+        try:
+            conn = connection()
+            # create a new cursor
+            cur = conn.cursor()
+            # execute the UPDATE  statement
+            cur.execute("""UPDATE orders_table SET order_status= '{}' WHERE order_id= {} """ .format(
+                'Delivered', order_id))
+            conn.commit()
+
+            return True
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+
+    def update_location(self, order_id):
+        conn = connection()
+        try:
+            conn = connection()
+            # create a new cursor
+            cur = conn.cursor()
+            # execute the UPDATE  statement
+            cur.execute("""UPDATE orders_table SET current_location= '{}' WHERE order_id= {} """ .format(
+                'Nairobi', order_id))
+            conn.commit()
+
+            return True
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+
+    def Update_order_destination(self, order_id):
+        conn = connection()
+        try:
+            conn = connection()
+            # create a new cursor
+            cur = conn.cursor()
+            # execute the UPDATE  statement
+            cur.execute("""UPDATE orders_table SET destination_address= '{}' WHERE order_id= {} """ .format(
+                'Meru', order_id))
+            conn.commit()
+
+            return True
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
