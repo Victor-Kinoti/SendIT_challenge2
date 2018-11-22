@@ -1,4 +1,5 @@
 from ..models.UserModels import Order, User
+# from app.api.v2.models.UserModels import Order, User
 from validate_email import validate_email
 from flask_jwt_extended import create_access_token
 from validate_email import validate_email
@@ -123,8 +124,9 @@ class UserLogin(Resource):
             if auth:
                 passw = User()
                 pass_match = passw.get_pass(data['email'])
-
-                if pass_match:
+                # print(pass_match)
+                # print(password)
+                if pass_match == password:
                     access_token = create_access_token(identity=email)
 
                     payload = {
@@ -134,7 +136,7 @@ class UserLogin(Resource):
                     }
 
                     return payload, 200
-                return {"password mismatch"}, 400
+                return {"Status": "Email/password wrong"}, 400
         return {
             "Status": "User doesn't exist"
         }, 404
