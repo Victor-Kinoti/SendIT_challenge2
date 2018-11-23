@@ -43,19 +43,24 @@ install dependencies:
 
 | Method        | URL/Endpoint          | output  |
 | ------------- |:-------------:| -----:|
-| POST| api/v1/register| registers new user |
-| POST| api/v1/login|   logs in a registered user|
-| GET | api/v1/parcels|gets all user parcels|
-| GET | api/v1/parcels/order_id|gets specific order|
-| PUT | api/v1/parcels/order_id/cancel|cancels specific order|
-| GET | api/v1/users/parcels|admin gets all orders|
-| GET | api/v1/users/<name>/parcels|admin gets specific user's orders|
-| PUT | api/v1/users/<user_id>/delivered|admin sets order to status delivered|
-| PUT | api/v1/users/<user_id>/paid|admin sets order to status Paid|
+| POST| api/v2/parcels| create order |
+| POST| api/v2/signup| registers new user |
+| POST| api/v2/login|   logs in a registered user|
+| GET | api/v2/parcels|gets all user parcels|
+| GET | api/v2/parcels/order_id|gets specific order|
+| PUT | api/v2/parcels/order_id/presentlocation|present Location|
+| GET | api/v2/users/parcels|admin gets all orders|
+| GET | api/v2/users/<name>/parcels|admin gets specific user's orders|
+| PUT | api/v2/users/<user_id>/delivered|admin sets order to status delivered|
+| PUT | api/v2/users/<user_id>/paid|admin sets order to status Paid|
 
 ***manually test using postman***
 
 Here's the [documentation](https://documenter.getpostman.com/view/4146964/RzZAme6q) on how to consume the API on a local machine. New users need to Register then Login
 
 **Heroku site** [Here](https://sendit-keynote2.herokuapp.com)
+
+Run `export DATABASE_URL="dbname='sendit' user='postgres' host='localhost' password='keynote269' port='5432'"` to setup db environment
+
+Run **PWD** on terminal to get location of repo then type: `export PYTHONPATH=$PYTHONPATH:+ pwd output` helps in importations
 
