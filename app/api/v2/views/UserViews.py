@@ -1,7 +1,7 @@
 from ..models.UserModels import Order, User
-# from app.api.v2.models.UserModels import Order, User
+from flask_jwt_extended import (create_access_token,
+                                jwt_required, get_jwt_identity, get_raw_jwt, jwt_required)
 from validate_email import validate_email
-from flask_jwt_extended import create_access_token
 from validate_email import validate_email
 from flask_restful import Resource
 from flask import make_response, jsonify, request, abort
@@ -15,6 +15,9 @@ class DataParcel(Resource):
 
     def post(self):
         """Create an order"""
+        user = get_jwt_identity()
+        if user[1] != "User":
+            return "Not Authorized!"
         data = request.get_json()
 
         if len(data) == 0:
@@ -40,13 +43,18 @@ class DataParcel(Resource):
         par.create_order(data)
 
         payload = {
-            "Status": "created",
-            "Data": data
+            "Status": "created"
 
         }
         return payload, 201
 
+    @jwt_required
     def get(self):
+
+        user = get_jwt_identity()
+        if user[1] != "Admin":
+            return "Not Authorized!"
+
         """get all orders in the database"""
         par = Order()
 
@@ -63,6 +71,7 @@ class DataParcel(Resource):
 class SingleParcel(Resource):
     """gets a single order"""
 
+    @jwt_required
     def get(self, order_id):
         try:
             order_id = int(order_id)
@@ -135,6 +144,7 @@ class UserLogin(Resource):
 
             user = User()
             email = data['email']
+            role = data['role']
             password = data['password']
 
             auth = user.login_user(email, password)
@@ -145,7 +155,7 @@ class UserLogin(Resource):
                 # print(pass_match)
                 # print(password)
                 if pass_match == password:
-                    access_token = create_access_token(identity=email)
+                    access_token = create_access_token(identity=[email, role])
 
                     payload = {
                         "Status": "User Logged in",

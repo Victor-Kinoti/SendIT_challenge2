@@ -8,7 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 class Order(object):
     """Creates an order"""
 
-    @jwt_required
+    # @jwt_required
     def create_order(self, data):
         print(data)
         destination_address = data['destination_address']
@@ -32,7 +32,7 @@ class Order(object):
 
             conn.commit()
 
-    @jwt_required
+    # @jwt_required
     def get_one_order(self, order_id):
         """Gets a specific order with order_id as arguments
         param:order_id
@@ -44,7 +44,7 @@ class Order(object):
             order = cursor.fetchone()
         return order
 
-    @jwt_required
+    # @jwt_required
     def get_all_orders(self):
         conn = connection()
         with conn.cursor() as cursor:

@@ -33,6 +33,13 @@ request_reg = {
     "role": "Admin"
 }
 
+request_reg2 = {
+    "username": "vikey",
+    "email": "vi@gmm.com",
+    "password": "keynote",
+    "con_password": "keynote",
+    "role": "User"
+}
 request_log = {
     "email": "vi@gmm.com",
     "password": "keynote"

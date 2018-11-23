@@ -4,9 +4,8 @@ from db.db_config import connection, close_connection
 from flask_jwt_extended import create_access_token, jwt_required
 
 
-class UserOrders(object):
+class UserOrders():
 
-    @jwt_required
     def get_all_orders(self):
         conn = connection()
         with conn.cursor() as cursor:
@@ -14,7 +13,6 @@ class UserOrders(object):
             order = cursor.fetchall()
         return order
 
-    @jwt_required
     def get_one_order(self, order_id):
         """Gets a specific order with order_id as arguments
         param:order_id
@@ -26,7 +24,6 @@ class UserOrders(object):
             order = cursor.fetchone()
         return order
 
-    @jwt_required
     def get_all(self, user_id):
         """Get all orders of specific user
         """
@@ -37,8 +34,7 @@ class UserOrders(object):
             order = cursor.fetchall()
         return order
 
-    @jwt_required
-    def update_order_status(self, order_id):
+    def update_order_status(self, order_id, order_status):
         conn = connection()
         try:
             conn = connection()
@@ -46,15 +42,14 @@ class UserOrders(object):
             cur = conn.cursor()
             # execute the UPDATE  statement
             cur.execute("""UPDATE orders_table SET order_status= '{}' WHERE order_id= {} """ .format(
-                'Delivered', order_id))
+                order_status, order_id))
             conn.commit()
 
             return True
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
 
-    @jwt_required
-    def update_location(self, order_id):
+    def update_location(self, order_id, current_location):
         conn = connection()
         try:
             conn = connection()
@@ -62,15 +57,14 @@ class UserOrders(object):
             cur = conn.cursor()
             # execute the UPDATE  statement
             cur.execute("""UPDATE orders_table SET current_location= '{}' WHERE order_id= {} """ .format(
-                'Nairobi', order_id))
+                current_location, order_id))
             conn.commit()
 
             return True
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
 
-    @jwt_required
-    def Update_order_destination(self, order_id):
+    def Update_order_destination(self, order_id, destination_address):
         conn = connection()
         try:
             conn = connection()
@@ -78,7 +72,7 @@ class UserOrders(object):
             cur = conn.cursor()
             # execute the UPDATE  statement
             cur.execute("""UPDATE orders_table SET destination_address= '{}' WHERE order_id= {} """ .format(
-                'Meru', order_id))
+                destination_address, order_id))
             conn.commit()
 
             return True

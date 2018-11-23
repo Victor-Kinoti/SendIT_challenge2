@@ -1,6 +1,7 @@
 from ..models.AdminModels import UserOrders
 from ..models.UserModels import Order
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import (create_access_token,
+                                jwt_required, get_jwt_identity, get_raw_jwt, jwt_required)
 from validate_email import validate_email
 from flask_restful import Resource
 from flask import make_response, jsonify, request, abort
@@ -10,8 +11,11 @@ from email.utils import parseaddr
 class OrderParcels(Resource):
     """Utilizes data from an order by either getting all
     data or posting new data"""
-
+    @jwt_required
     def get(self):
+        user = get_jwt_identity()
+        if user[1] != "Admin":
+            return "Not Authorized!"
         """get all orders in the database"""
         par = UserOrders()
 
@@ -26,8 +30,12 @@ class OrderParcels(Resource):
 
 
 class SingleOrder(Resource):
+    """gets a single order with id"""
 
     def get(self, order_id):
+        user = get_jwt_identity()
+        if user[1] != "Admin":
+            return "Not Authorized!"
         try:
             order_id = int(order_id)
         except Exception:
@@ -51,6 +59,9 @@ class UsersOrders(Resource):
 
     def get(self, user_id):
         """gets all orders for certain user"""
+        user = get_jwt_identity()
+        if user[1] != "Admin":
+            return "Not Authorized!"
         try:
             user_id = int(user_id)
         except Exception:
@@ -75,6 +86,13 @@ class UpdateOrder(Resource):
 
     def put(self, order_id):
 
+        user = get_jwt_identity()
+        if user[1] != "Admin":
+            return "Not Authorized!"
+        data = request.get_json()
+
+        order_stat = data['order_status']
+
         try:
             order_id = int(order_id)
         except Exception:
@@ -88,7 +106,7 @@ class UpdateOrder(Resource):
             return {"Status": "Order doesn't exist"}
 
         par = UserOrders()
-        update_order = par.update_order_status(order_id)
+        update_order = par.update_order_status(order_id, order_stat)
         if update_order:
 
             return {"Status": "Delivered"
@@ -102,6 +120,13 @@ class UpdateOrder(Resource):
 class Update_location(Resource):
 
     def put(self, order_id):
+
+        user = get_jwt_identity()
+        if user[1] != "Admin":
+            return "Not Authorized!"
+        data = request.get_json()
+
+        current_loc = data["current_location"]
         try:
             order_id = int(order_id)
         except Exception:
@@ -110,7 +135,7 @@ class Update_location(Resource):
 
         par = UserOrders()
 
-        update_loc = par.update_location(order_id)
+        update_loc = par.update_location(order_id, current_loc)
         if update_loc:
 
             return {"Status": "location updated"
@@ -124,6 +149,13 @@ class Update_location(Resource):
 class Update_destination(Resource):
 
     def put(self, order_id):
+
+        user = get_jwt_identity()
+        if user[1] != "User":
+            return "Not Authorized!"
+
+        data = request.get_json()
+        dest_adrr = data["destination_address"]
         try:
             order_id = int(order_id)
         except Exception:
@@ -132,7 +164,7 @@ class Update_destination(Resource):
 
         par = UserOrders()
 
-        update_des = par.Update_order_destination(order_id)
+        update_des = par.Update_order_destination(order_id, dest_adrr)
         if update_des:
 
             return {"Status": "destination updated"
