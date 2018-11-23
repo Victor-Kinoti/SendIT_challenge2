@@ -58,7 +58,9 @@ install dependencies:
 
 Here's the [documentation](https://documenter.getpostman.com/view/4146964/RzZAme6q) on how to consume the API on a local machine. New users need to Register then Login
 
-**Heroku site** [Here](https://sendit-keynote2.herokuapp.com)
+**Heroku site Version !** [Here](https://sendit-keynote2.herokuapp.com/api/v1/parcels)
+
+**Heroku site Version !** [Here](https://sendit-keynote2.herokuapp.com/api/v2/parcels)
 
 Run `export DATABASE_URL="dbname='sendit' user='postgres' host='localhost' password='keynote269' port='5432'"` to setup db environment
 
