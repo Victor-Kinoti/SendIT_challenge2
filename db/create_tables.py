@@ -16,7 +16,7 @@ class DatabaseConnection:
 
     def create_tables(self):
 
-        create_table_users = """ CREATE TABLE IF NOT EXISTS users_tables(
+        create_table_users = """ CREATE TABLE IF NOT EXISTS users_table(
             user_id serial PRIMARY KEY,
             username VARCHAR(250) NOT NULL,
             email VARCHAR(96) UNIQUE,
@@ -29,9 +29,8 @@ class DatabaseConnection:
             pickup_address  VARCHAR (256) NOT NULL,
             recipient_name  VARCHAR (256) NOT NULL,
             recipient_id  INT NOT NULL,
-            item_type VARCHAR (256) NOT NULL DEFAULT 'parcel',
             weight INT NOT NULL,
-            user_id INT,
+            user_id INT REFERENCES users_table(user_id),
             current_location VARCHAR (50) NOT NULL DEFAULT 'Mombasa',
             order_status VARCHAR (50) NOT NULL DEFAULT 'In-Transit',
             payment_status VARCHAR (50) NOT NULL DEFAULT 'Not paid')
@@ -41,9 +40,9 @@ class DatabaseConnection:
         self.cursor.execute(create_table_orders)
 
     def destroy_tables(self):
-        users_tables = "DROP TABLE IF EXISTS users_tables CASCADE"
         orders_table = "DROP TABLE IF EXISTS orders_table CASCADE"
-        queries = [users_tables, orders_table]
+        users_tables = "DROP TABLE IF EXISTS users_table CASCADE"
+        queries = [orders_table, users_tables]
         try:
             for query in queries:
                 self.cursor.execute(query)

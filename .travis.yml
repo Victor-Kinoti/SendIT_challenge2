@@ -13,7 +13,7 @@ install:
 before_script:
   - psql -c 'create database sendit;' -U postgres
   - export DB_URL='postgresql://postgres@localhost:5432/sendit'
-  - export PYTHONPATH=$PYTHONPATH:/home/keynote-lx/Desktop/Andela\projects/SendIT_challenge2
+  - export PYTHONPATH=$PYTHONPATH:+ pwd
   - export DATABASE_URL="dbname='sendit' user='postgres' host='localhost' password='keynote269' port='5432'"
 
 

@@ -14,6 +14,7 @@ class UserOrders():
         return order
 
     def get_one_order(self, order_id):
+        # for admins
         """Gets a specific order with order_id as arguments
         param:order_id
         :return:"""
@@ -38,9 +39,7 @@ class UserOrders():
         conn = connection()
         try:
             conn = connection()
-            # create a new cursor
             cur = conn.cursor()
-            # execute the UPDATE  statement
             cur.execute("""UPDATE orders_table SET order_status= '{}' WHERE order_id= {} """ .format(
                 order_status, order_id))
             conn.commit()
@@ -53,9 +52,7 @@ class UserOrders():
         conn = connection()
         try:
             conn = connection()
-            # create a new cursor
             cur = conn.cursor()
-            # execute the UPDATE  statement
             cur.execute("""UPDATE orders_table SET current_location= '{}' WHERE order_id= {} """ .format(
                 current_location, order_id))
             conn.commit()
@@ -68,9 +65,7 @@ class UserOrders():
         conn = connection()
         try:
             conn = connection()
-            # create a new cursor
             cur = conn.cursor()
-            # execute the UPDATE  statement
             cur.execute("""UPDATE orders_table SET destination_address= '{}' WHERE order_id= {} """ .format(
                 destination_address, order_id))
             conn.commit()

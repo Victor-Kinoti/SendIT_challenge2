@@ -1,17 +1,12 @@
 
 request_1 = {
-    "destination_address": "Nairobi",
-    "pickup_address": "kisumu",
-    "recipient_name": "Victor",
-    "recipient_id": "35526",
-    "item_type": "letter",
-    "name": "keyvik",
-    "weight": 45,
-    "user_id": 2,
-    "current_location": "Kisumu",
-    "order_status": "canceled",
-    "payment_status": "Not paid"
 
+    "destination_address": "Nairobi",
+    "pickup_address": "Githurai",
+    "recipient_name": "Kinoti",
+    "recipient_id": 5,
+    "weight": 45,
+    "current_location": "hawaii"
 }
 request_2 = {
     "username": "kk",
@@ -34,14 +29,24 @@ request_reg = {
 }
 
 request_reg2 = {
-    "username": "vikey",
-    "email": "vi@gmm.com",
+    "username": "keynote",
+    "email": "vikat@gm.com",
     "password": "keynote",
     "con_password": "keynote",
     "role": "User"
 }
+request_log2 = {
+    "email": "vikat@gm.com",
+    "password": "keynote"
+}
+
 request_log = {
     "email": "vi@gmm.com",
+    "password": "keynote"
+}
+
+request_log_non = {
+    "email": "vi@ggffm.com",
     "password": "keynote"
 }
 request_4 = {
@@ -68,8 +73,8 @@ request_8 = {
 }
 
 request_9 = {
-    "username": "Keynote", "email": "vikgmail.com", "password": "pass",
-    "con_password": "pass", "role": "admin"
+    "username": "Keynote", "email": "vik@gmail.com", "password": "pass",
+    "con_password": "pass", "role": "Admin"
 }
 
 data_1 = {"user_id": "1", "pickup_address": "Nairobi",
@@ -94,3 +99,19 @@ data_4 = {"destination_address": "Nairobi", "pickup_address": "kisumu",
           "order_status": "canceled"
           }
 no_data = {}
+
+update_status = {
+    "order_status": "Canceled"
+}
+
+update_status_wrng = {
+    "order_status": "canceled"
+}
+
+update_loc = {
+    "current_location": "Kisumu"
+}
+
+update_dest = {
+    "destination_address": "Kisumu"
+}

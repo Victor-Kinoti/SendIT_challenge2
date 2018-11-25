@@ -11,8 +11,7 @@ from db.create_tables import DatabaseConnection
 def page_not_found(e):
     """Methods handles urls that don't exist"""
     return make_response(jsonify({
-        'Status': 'Not Found',
-        'Message': "URL doesn't exist"
+        'Status': "URL doesn't exist"
     }), 404)
 
 

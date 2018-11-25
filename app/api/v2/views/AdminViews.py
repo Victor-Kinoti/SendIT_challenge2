@@ -9,14 +9,14 @@ from email.utils import parseaddr
 
 
 class OrderParcels(Resource):
-    """Utilizes data from an order by either getting all
-    data or posting new data"""
+    """Utilizes data from an order by getting all
+    data"""
     @jwt_required
     def get(self):
-        user = get_jwt_identity()
-        if user[1] != "Admin":
-            return "Not Authorized!"
         """get all orders in the database"""
+        user = get_jwt_identity()
+        if user[1]['role'] != "Admin":
+            return "Not Authorized!"
         par = UserOrders()
 
         all_orders = par.get_all_orders()
@@ -31,10 +31,11 @@ class OrderParcels(Resource):
 
 class SingleOrder(Resource):
     """gets a single order with id"""
-
+    @jwt_required
     def get(self, order_id):
         user = get_jwt_identity()
-        if user[1] != "Admin":
+        print(user)
+        if user[1]['role'] != "Admin":
             return "Not Authorized!"
         try:
             order_id = int(order_id)
@@ -47,7 +48,7 @@ class SingleOrder(Resource):
         if one_order is not None:
             return make_response(jsonify(
                 {
-                    "Status": "Ok",
+                    "Status": "Order found",
                     "Orders": one_order
                 }))
         return make_response(jsonify({
@@ -57,10 +58,12 @@ class SingleOrder(Resource):
 
 class UsersOrders(Resource):
 
+    @jwt_required
     def get(self, user_id):
         """gets all orders for certain user"""
         user = get_jwt_identity()
-        if user[1] != "Admin":
+        print(user)
+        if user[1]['role'] != "Admin":
             return "Not Authorized!"
         try:
             user_id = int(user_id)
@@ -73,7 +76,7 @@ class UsersOrders(Resource):
         all_orders = par.get_all(user_id)
         if all_orders:
 
-            return {"Status": "Ok",
+            return {"Status": "Found user " + str(user_id) + " orders",
                     "Orders": all_orders
                     }, 200
 
@@ -84,12 +87,17 @@ class UsersOrders(Resource):
 
 class UpdateOrder(Resource):
 
+    @jwt_required
     def put(self, order_id):
 
         user = get_jwt_identity()
-        if user[1] != "Admin":
+        if user[1]['role'] != "Admin":
             return "Not Authorized!"
         data = request.get_json()
+
+        if data["order_status"] != 'Delivered' and data['order_status'] != 'Canceled'\
+                and data['order_status'] != 'In-Transit':
+            return {"Status": "Status can be 'Canceled', 'Delivered' or 'In-Transit'"}, 400
 
         order_stat = data['order_status']
 
@@ -103,13 +111,13 @@ class UpdateOrder(Resource):
         order.get_one_order(order_id)
 
         if order is None:
-            return {"Status": "Order doesn't exist"}
+            return {"Status": "Order doesn't exist"}, 404
 
         par = UserOrders()
         update_order = par.update_order_status(order_id, order_stat)
         if update_order:
 
-            return {"Status": "Delivered"
+            return {"Status": "Order " + order_stat
                     }, 200
 
         return {
@@ -119,10 +127,11 @@ class UpdateOrder(Resource):
 
 class Update_location(Resource):
 
+    @jwt_required
     def put(self, order_id):
 
         user = get_jwt_identity()
-        if user[1] != "Admin":
+        if user[1]['role'] != "Admin":
             return "Not Authorized!"
         data = request.get_json()
 
@@ -136,9 +145,10 @@ class Update_location(Resource):
         par = UserOrders()
 
         update_loc = par.update_location(order_id, current_loc)
+        print(update_loc)
         if update_loc:
 
-            return {"Status": "location updated"
+            return {"Status": "Current Location is " + data['current_location']
                     }, 200
 
         return {
@@ -148,11 +158,12 @@ class Update_location(Resource):
 
 class Update_destination(Resource):
 
+    @jwt_required
     def put(self, order_id):
 
         user = get_jwt_identity()
-        if user[1] != "User":
-            return "Not Authorized!"
+        if user[1]['role'] != "User":
+            return {"Status": "Not Authorized!"}
 
         data = request.get_json()
         dest_adrr = data["destination_address"]
@@ -167,7 +178,7 @@ class Update_destination(Resource):
         update_des = par.Update_order_destination(order_id, dest_adrr)
         if update_des:
 
-            return {"Status": "destination updated"
+            return {"Status": "Destination updated to " + data["destination_address"]
                     }, 200
 
         return {
