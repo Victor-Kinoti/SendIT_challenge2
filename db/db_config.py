@@ -25,5 +25,6 @@ def close_connection(conn):
 
 def destroy_tables():
     conn = connection()
-    cursor = conn.cursor()
-    cursor.execute("""DROP TABLES users_tables""")
+    with conn.cursor() as cursor:
+        cursor.execute("""DROP TABLES users_tables""")
+        close_connection(conn)
