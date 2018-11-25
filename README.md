@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.com/Victor-Kinoti/SendIT.svg?branch=ch-tests-161805245)](https://travis-ci.com/Victor-Kinoti/SendIT)
-[![Coverage Status](https://coveralls.io/repos/github/Victor-Kinoti/SendIT_ch2/badge.svg?branch=reviews)](https://coveralls.io/github/Victor-Kinoti/SendIT_ch2?branch=reviews)
+[![Coverage Status](https://coveralls.io/repos/github/Victor-Kinoti/SendIT_challenge2/badge.svg?branch=challenge_3)](https://coveralls.io/github/Victor-Kinoti/SendIT_challenge2?branch=challenge_3)
 [![Maintainability](https://api.codeclimate.com/v1/badges/cc4addaa0ed3bff16ae3/maintainability)](https://codeclimate.com/github/Victor-Kinoti/SendIT_ch2/maintainability)
 
 SendIT is a courier service that helps users deliver parcels to different destinations. 
