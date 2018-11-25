@@ -1,0 +1,25 @@
+language: 
+  - python
+
+python:
+  - "3.6"
+
+install:
+  - pip install -r requirements.txt
+  - pip install nose
+  - pip install coverage
+  - pip install coveralls
+
+before_script:
+  - psql -c 'create database sendit;' -U postgres
+  - export DB_URL='postgresql://postgres@localhost:5432/sendit'
+  - export PYTHONPATH=$PYTHONPATH:+ pwd
+  - export DATABASE_URL="dbname='sendit' user='postgres' host='localhost' password='keynote269' port='5432'"
+
+
+script:
+ - nosetests --with-coverage --cover-package=app
+ - coveralls
+
+after_success:
+  - coveralls
